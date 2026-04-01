@@ -32,3 +32,6 @@ scores = tensor([
 best_indices = scores.argmax(dim=1)
 print(f"best_indices: {best_indices}")
 # gives you the position of the max value in each row, so for the first row it gives 3 because 20 is the max value and it's in position 3, for the second row it gives 1 because 30 is the max value and it's in position 1. result: tensor([3, 1])
+
+selected_values = torch.gather(scores, dim=1, index=tensor([[3], [0]])) # result = tensor([[20.], [1.]])
+# print(f"selected_values: {selected_values}")
