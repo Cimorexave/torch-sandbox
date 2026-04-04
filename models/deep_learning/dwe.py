@@ -5,10 +5,12 @@ class DeepWeatherEvaluator(nn.Module):
     def __init__(self, in_dimension = 5, out_dimension = 1):
         super(DeepWeatherEvaluator, self).__init__()
         self.model = torch.nn.Sequential(
-            nn.Linear(in_dimension, 64),
+            nn.Linear(in_dimension, in_dimension * 8),
             nn.ReLU(),
-            nn.Linear(64, 128),
-            nn.Dropout(p=0.5),
+            nn.Linear(in_dimension * 8, out_dimension),
+            nn.ReLU(),
+            # nn.Dropout(p=0.5),
+            # nn.Linear(in_dimension * 4, out_dimension),
             nn.Sigmoid()
         )
 
@@ -21,14 +23,9 @@ class DeepWeatherEvaluator(nn.Module):
             y_pred = self.forward(X)
             return (y_pred > 0.5).float()  # convert probabilities to binary predictions
     
-    def criterion(self, y_pred, y_true):
-        # cross entropy loss for binary classification
-        loss_fn = nn.BCELoss()
-        return loss_fn(y_pred, y_true)
-    
     def fit(self, X, y_true, learning_rate=0.01, epochs=1000):
         optimizer = torch.optim.Adam(self.parameters(), lr=learning_rate)
-        loss_fn = self.criterion
+        loss_fn = nn.BCELoss()  # binary cross-entropy loss
         
         for epoch in range(epochs):
             self.train()
