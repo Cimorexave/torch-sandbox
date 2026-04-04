@@ -15,6 +15,12 @@ class DeepWeatherEvaluator(nn.Module):
     def forward(self, x):
         return self.model(x)
     
+    def prefict(self, X):
+        self.eval()
+        with torch.no_grad():
+            y_pred = self.forward(X)
+            return (y_pred > 0.5).float()  # convert probabilities to binary predictions
+    
     def criterion(self, y_pred, y_true):
         # cross entropy loss for binary classification
         loss_fn = nn.BCELoss()
