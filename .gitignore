@@ -3,3 +3,8 @@
 
 # pycache files
 **/__pycache__
+
+# logs and reports
+models/deep_learning/logs/
+models/deep_learning/reports/
+models/deep_learning/checkpoints/
