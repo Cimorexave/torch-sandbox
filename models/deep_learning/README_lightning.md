@@ -124,6 +124,6 @@ predictions = model.predict(X_test)
 
 ## Running Examples
 
-1. **Quick test**: `poetry run test_lightning`
-2. **Full example**: `poetry run example_usage_lightning`
-3. **Original example**: `poetry run example_usage.py` (for comparison)
+1. **Quick test**: `poetry run models/deep_learning/test_lightning`
+2. **Full example**: `poetry run models/deep_learning/example_usage_lightning`
+3. **Original example**: `poetry run models/deep_learning/example_usage.py` (for comparison)
