@@ -15,7 +15,7 @@ class DeepWeatherEvaluator(nn.Module):
     def forward(self, x):
         return self.model(x)
     
-    def prefict(self, X):
+    def predict(self, X):
         self.eval()
         with torch.no_grad():
             y_pred = self.forward(X)
