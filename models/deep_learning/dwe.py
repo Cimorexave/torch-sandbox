@@ -2,9 +2,9 @@ import torch
 import torch.nn as nn
 
 class DeepWeatherEvaluator(nn.Module):
-    def __int__(self, in_dimension = 5, out_dimension = 1):
-        super.__init__(DeepWeatherEvaluator, self).__init__()
-        torch.nn.Sequential(
+    def __init__(self, in_dimension = 5, out_dimension = 1):
+        super(DeepWeatherEvaluator, self).__init__()
+        self.model = torch.nn.Sequential(
             nn.Linear(in_dimension, 64),
             nn.ReLU(),
             nn.Linear(64, 128),
