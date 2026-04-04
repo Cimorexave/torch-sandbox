@@ -1,6 +1,8 @@
 import numpy as np
 from sklearn.model_selection import train_test_split
-from models.deep_learning.dwe import DeepWeatherEvaluator
+import torch
+import torch
+from dwe import DeepWeatherEvaluator
 
 def generate_synthetic_data(num_samples=1000, num_features=5):
     """
@@ -41,6 +43,24 @@ if __name__ == "__main__":
 
     # split into training and testing sets
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
-    print("Training set shape:", X_train.shape, y_train.shape)
-    print("Testing set shape:", X_test.shape, y_test.shape)
+    
+    # convert to PyTorch tensors
+    X_train_tensor = torch.from_numpy(X_train.astype(np.float32))
+    y_train_tensor = torch.from_numpy(y_train.astype(np.float32)).unsqueeze(1)  # add an extra dimension for the labels
+    X_test_tensor = torch.from_numpy(X_test.astype(np.float32))
+    y_test_tensor = torch.from_numpy(y_test.astype(np.float32)).unsqueeze(1)
 
+    print("Training tensor set shape:", X_train_tensor.shape, y_train_tensor.shape)
+    print("Testing tensor set shape:", X_test_tensor.shape, y_test_tensor.shape)
+
+    # initialize the model
+    model = DeepWeatherEvaluator(in_dimension=X_train_tensor.shape[1], out_dimension=1)
+    
+    # train the model
+    model.fit(X_train_tensor, y_train_tensor, learning_rate=0.01, epochs=1000)
+    
+    # evaluate the model on the test set
+    y_pred = model.predict(X_test_tensor)
+    accuracy = (y_pred == y_test_tensor).float().mean()
+
+    print(f"Test accuracy: {accuracy.item():.6f}")
